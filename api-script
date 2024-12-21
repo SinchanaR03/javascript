@@ -1,0 +1,30 @@
+const joke = document.getElementById('joke');
+const jokebtn = document.getElementById('jokebtn');
+
+// Fetch and display a joke immediately
+getJoke();
+
+// Add event listener to fetch and display a joke on button click
+jokebtn.addEventListener('click', getJoke);
+
+function getJoke() {
+    const config = {
+        headers: {
+            "Accept": "application/json"
+        }
+    };
+    
+    fetch('https://icanhazdadjoke.com/', config) // Pass the config object here
+    .then(res => {
+        if (!res.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return res.json();
+    })
+    .then(data => {
+        joke.innerText = data.joke;
+    })
+    .catch(error => {
+        joke.innerText = 'Failed to fetch a joke: ' + error.message;
+    });
+}
